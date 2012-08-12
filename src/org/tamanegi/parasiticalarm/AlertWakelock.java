@@ -21,6 +21,10 @@ class AlertWakeLock
 
     static void release()
     {
+        if(wakelock == null) {
+            return;
+        }
+
         wakelock.release();
     }
 }
