@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.tamanegi.parasiticalarm"
+          android:versionCode="1"
+          android:versionName="1.0" >
+
+  <uses-sdk android:minSdkVersion="4"
+            android:targetSdkVersion="15" />
+
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+
+  <application android:icon="@drawable/ic_launcher"
+               android:label="@string/app_name"
+               android:theme="@style/MainTheme" >
+
+    <activity android:name=".AlarmListActivity"
+              android:label="@string/title_alarm_list" >
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+
+    <activity android:name=".AlarmDetailActivity"
+              android:label="@string/title_alarm_detail" >
+      <meta-data android:name="android.support.PARENT_ACTIVITY"
+                 android:value=".AlarmListActivity" />
+    </activity>
+
+    <activity
+       android:name=".AlertActivity"
+       android:excludeFromRecents="true"
+       android:theme="@style/AlertTheme"
+       android:launchMode="singleTop"
+       android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+       />
+
+    <service android:name=".AlarmService" />
+
+    <receiver android:name=".AlarmReceiver"
+              android:exported="false">
+      <intent-filter>
+        <action android:name="org.tamanegi.parasiticalarm.action.ALARM" />
+        <data android:scheme="alarm" />
+      </intent-filter>
+    </receiver>
+
+    <receiver android:name=".InitReceiver">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+        <action android:name="android.intent.action.TIME_SET" />
+        <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+        <action android:name="android.intent.action.LOCALE_CHANGED" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.PACKAGE_REPLACED" />
+        <data android:scheme="package" />
+      </intent-filter>
+    </receiver>
+
+    <provider android:name=".AssetProxyProvider"
+              android:authorities="org.tamanegi.parasiticalarm.assetproxy" />
+
+  </application>
+</manifest>

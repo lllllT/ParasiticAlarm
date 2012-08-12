@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:orientation="horizontal"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   android:layout_marginLeft="16dp"
+   android:layout_marginRight="16dp"
+   tools:context=".AlarmListActivity">
+
+  <fragment
+     android:name="org.tamanegi.parasiticalarm.AlarmListFragment"
+     android:id="@+id/alarm_list"
+     android:layout_width="0dp"
+     android:layout_height="fill_parent"
+     android:layout_weight="1"
+     />
+
+  <View
+     android:layout_width="1dp"
+     android:layout_height="fill_parent"
+     android:layout_weight="0"
+     android:background="?android:attr/listDivider"
+     />
+
+  <FrameLayout
+     android:id="@+id/alarm_detail_container"
+     android:layout_width="0dp"
+     android:layout_height="fill_parent"
+     android:layout_weight="3"
+     android:paddingLeft="16dp"
+     android:paddingRight="16dp"
+     />
+
+</LinearLayout>

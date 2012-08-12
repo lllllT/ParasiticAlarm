@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:layout_width="120sp"
+   android:layout_height="wrap_content"
+   >
+
+  <ImageButton
+     android:id="@+id/numberpicker_increment"
+     android:src="@drawable/numberpicker_increment"
+     android:layout_width="120sp"
+     android:layout_height="wrap_content"
+     android:layout_gravity="center_horizontal"
+     android:paddingTop="8dp"
+     android:paddingBottom="8dp"
+     />
+  <EditText
+     android:id="@+id/numberpicker_input"
+     android:layout_width="120sp"
+     android:layout_height="wrap_content"
+     android:layout_gravity="center_horizontal"
+     android:paddingTop="13sp"
+     android:paddingBottom="13sp"
+     android:paddingLeft="2sp"
+     android:paddingRight="2sp"
+     android:gravity="center"
+     android:singleLine="true"
+     android:textSize="24sp"
+     android:inputType="number"
+     />
+  <ImageButton
+     android:id="@+id/numberpicker_decrement"
+     android:src="@drawable/numberpicker_decrement"
+     android:layout_width="120sp"
+     android:layout_height="wrap_content"
+     android:layout_gravity="center_horizontal"
+     android:paddingTop="8dp"
+     android:paddingBottom="8dp"
+     />
+
+</LinearLayout>

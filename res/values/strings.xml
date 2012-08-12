@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">ParasiticAlarm</string>
+
+  <string name="title_alarm_detail">Alarm Detail</string>
+  <string name="title_alarm_list">Alarms</string>
+
+  <string name="day_of_week_abbr_mon">Mon</string>
+  <string name="day_of_week_abbr_tue">Tue</string>
+  <string name="day_of_week_abbr_wed">Wed</string>
+  <string name="day_of_week_abbr_thu">Thu</string>
+  <string name="day_of_week_abbr_fri">Fri</string>
+  <string name="day_of_week_abbr_sat">Sat</string>
+  <string name="day_of_week_abbr_sun">Sun</string>
+  <string name="day_of_week_full_mon">Monday</string>
+  <string name="day_of_week_full_tue">Tuesday</string>
+  <string name="day_of_week_full_wed">Wednesday</string>
+  <string name="day_of_week_full_thu">Thursday</string>
+  <string name="day_of_week_full_fri">Friday</string>
+  <string name="day_of_week_full_sat">Saturday</string>
+  <string name="day_of_week_full_sun">Sunday</string>
+  <string name="day_of_week_separator">", "</string>
+  <string name="day_once">Once</string>
+
+  <string name="pref_desc_onoff">Enable alarm</string>
+  <string name="pref_summary_onoff">Enable alarm</string>
+  <string name="pref_desc_time">Time</string>
+  <string name="pref_desc_alarm">Alarm</string>
+  <string name="pref_summary_alarm_separator">", "</string>
+  <string name="pref_desc_volume">Volume</string>
+  <string name="pref_summary_volume">%d</string>
+  <string name="pref_desc_day">Repetition</string>
+  <string name="pref_desc_snooze_interval">Snooze interval</string>
+  <plurals name="pref_summary_snooze_interval">
+    <item quantity="one">One minute</item>
+    <item quantity="other">%d mitunes</item>
+  </plurals>
+  <string name="pref_desc_snooze_timeout">Snooze timeout</string>
+  <plurals name="pref_summary_snooze_timeout">
+    <item quantity="zero">Infinitely</item>
+    <item quantity="one">One minute</item>
+    <item quantity="other">%d mitunes</item>
+  </plurals>
+  <string name="pref_desc_vibration">Vibration</string>
+
+  <string name="alarm_select_none">Select none</string>
+  <string name="alarm_select_all">Select all</string>
+
+  <string name="volume_use_system">Use system preference</string>
+
+  <string name="msg_no_alarms">No alarms are selected.</string>
+
+  <string name="alert_stop">Stop alert</string>
+  <string name="alert_dismiss_message">Dismiss</string>
+  <string name="alert_cancel_snooze">Cancel snooze</string>
+
+</resources>
