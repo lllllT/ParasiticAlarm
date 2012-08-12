@@ -234,6 +234,7 @@ public class AlertActivity extends Activity
         isAfter = true;
         alertArea.setVisibility(View.GONE);
 
+        image.setImageURI(afterImage);
         playAudio(afterAudio);
     }
 
