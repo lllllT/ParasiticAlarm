@@ -238,7 +238,8 @@ public class AlarmService extends IntentService
                      .build())
             .putExtra(EXTRA_ALARM_START, startAt)
             .putExtra(EXTRA_ALARM_ALERT, alertAt);
-        return PendingIntent.getBroadcast(this, 0, intent, 0);
+        return PendingIntent.getBroadcast(
+            this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void setAlarm(long at, PendingIntent intent)
