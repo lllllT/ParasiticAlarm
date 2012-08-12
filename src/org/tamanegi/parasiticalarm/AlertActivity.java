@@ -60,6 +60,7 @@ public class AlertActivity extends Activity
         mediaplayer = new MediaPlayer();
         mediaplayer.setOnPreparedListener(onPlayerPreparedListener);
         mediaplayer.setOnCompletionListener(onPlayerCompletionListener);
+        mediaplayer.setOnErrorListener(onPlayerErrorListener);
 
         handler = new Handler(delayedPlayCallback);
 
@@ -88,9 +89,7 @@ public class AlertActivity extends Activity
         registerReceiver(screenOffReceiver,
                          new IntentFilter(Intent.ACTION_SCREEN_OFF));
 
-        System.out.println("dbg: onCreate: " + getIntent());
         applyParameters(getIntent());
-        startAlert();
     }
 
     @Override
@@ -98,12 +97,19 @@ public class AlertActivity extends Activity
     {
         super.onNewIntent(intent);
 
-        // todo:
         AlertWakeLock.release();     // acquired at AlarmService#alarm
 
-        System.out.println("dbg: onCreate: " + intent);
         applyParameters(intent);
-        startAlert();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        if(isInAlert) {
+            startAlert();
+        }
     }
 
     @Override
@@ -112,7 +118,7 @@ public class AlertActivity extends Activity
         super.onPause();
 
         handler.removeMessages(AUDIO_MSGID);
-        mediaplayer.stop();
+        mediaplayer.reset();
 
         if(vibrationEnabled) {
             vibrator.cancel();
@@ -143,7 +149,9 @@ public class AlertActivity extends Activity
 
     private void applyParameters(Intent intent)
     {
-        // todo:
+        isInAlert = true;
+        isAfter = false;
+
         alarmId = intent.getIntExtra(AlarmService.EXTRA_ALARM_ID, -1);
         snoozeEnabled =
             intent.getBooleanExtra(AlarmService.EXTRA_SNOOZE_ENABLED, false);
@@ -163,7 +171,7 @@ public class AlertActivity extends Activity
         afterImage = (Uri)
             intent.getParcelableExtra(AlarmService.EXTRA_AFTER_IMAGE);
         Uri background = (Uri)
-            intent.getParcelableExtra(AlarmService.EXTRA_BACKGROUND);
+            intent.getParcelableExtra(AlarmService.EXTRA_BACKGROUND); // todo:
         vibrationEnabled =
             intent.getBooleanExtra(AlarmService.EXTRA_VIBRATION_ENABLED, false);
 
@@ -210,7 +218,7 @@ public class AlertActivity extends Activity
         alertSnooze.setEnabled(snoozeEnabled);
 
         handler.removeMessages(AUDIO_MSGID);
-        mediaplayer.stop();
+        mediaplayer.reset();
 
         if(vibrationEnabled) {
             vibrator.cancel();
@@ -241,7 +249,6 @@ public class AlertActivity extends Activity
     private BroadcastReceiver screenOffReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                // todo:
                 finish();
             }
         };
@@ -314,8 +321,17 @@ public class AlertActivity extends Activity
                         AUDIO_INTERVAL);
                 }
                 else {
-                    mp.stop();
+                    mp.reset();
                 }
+            }
+        };
+
+    private MediaPlayer.OnErrorListener onPlayerErrorListener =
+        new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                mp.reset();
+                return true;
             }
         };
 

@@ -35,7 +35,7 @@
        android:excludeFromRecents="true"
        android:theme="@style/AlertTheme"
        android:launchMode="singleTop"
-       android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+       android:configChanges="keyboard|keyboardHidden|navigation|screenLayout|uiMode|orientation|screenSize|smallestScreenSize"
        />
 
     <service android:name=".AlarmService" />
