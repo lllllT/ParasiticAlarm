@@ -125,11 +125,20 @@ public abstract class AlarmData
         try {
             if(BiglobeAlarmData.PACKAGE_NAME_PATTERN
                .matcher(packageName).matches()) {
-                return new AlarmData[] {
-                    new BiglobeAlarmData(context, packageName, 0),
-                    new BiglobeAlarmData(context, packageName, 1),
-                    new BiglobeAlarmData(context, packageName, 2),
-                };
+                ArrayList<AlarmData> list = new ArrayList<AlarmData>();
+                int idx = 0;
+                try {
+                    while(true) {
+                        list.add(
+                            new BiglobeAlarmData(context, packageName, idx));
+                        idx += 1;
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                return list.toArray(new AlarmData[list.size()]);
             }
             if(packageName.equals(KmbAlarmData.PACKAGE_NAME)) {
                 return new AlarmData[] {
