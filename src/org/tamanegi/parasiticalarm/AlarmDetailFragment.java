@@ -12,7 +12,6 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -187,14 +186,6 @@ public class AlarmDetailFragment extends Fragment
         checkVibration.setChecked(settings.getVibration(id));
     }
 
-    private static void startSetupAlarms(Context context)
-    {
-        // update alarms
-        Intent intent = new Intent(context, AlarmService.class)
-            .setAction(AlarmService.ACTION_SETUP);
-        context.startService(intent);
-    }
-
     private AlarmSettings.OnSettingChangeListener settingChangeListener =
         new AlarmSettings.OnSettingChangeListener() {
             @Override
@@ -217,7 +208,7 @@ public class AlarmDetailFragment extends Fragment
                 }
 
                 settings.setOnOff(id, val);
-                startSetupAlarms(getActivity());
+                AlarmService.startSetupAlarms(getActivity());
             }
         };
 
@@ -319,19 +310,6 @@ public class AlarmDetailFragment extends Fragment
         }
     }
 
-    public static class NoAlarmsDialogFragment extends DialogFragment
-    {
-        @Override
-        public Dialog onCreateDialog(Bundle savedState)
-        {
-            return new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.pref_desc_onoff)
-                .setMessage(R.string.msg_no_alarms)
-                .setPositiveButton(android.R.string.ok, null)
-                .create();
-        }
-    }
-
     public static class TimeDialogFragment
         extends DetailDialogFragment
         implements TimePickerDialog.OnTimeSetListener
@@ -352,7 +330,7 @@ public class AlarmDetailFragment extends Fragment
             settings.setTime(id, hour, minute);
 
             if(settings.getOnOff(id)) {
-                startSetupAlarms(getActivity());
+                AlarmService.startSetupAlarms(getActivity());
             }
         }
     }

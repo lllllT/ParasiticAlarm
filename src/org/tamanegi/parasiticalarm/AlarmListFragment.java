@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Checkable;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -17,7 +19,7 @@ public class AlarmListFragment extends ListFragment
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
-    private SimpleAdapter adapter;
+    private AlarmListAdapter adapter;
     private AlarmSettings settings;
 
     public interface Callbacks
@@ -42,21 +44,7 @@ public class AlarmListFragment extends ListFragment
         settings = new AlarmSettings(getActivity());
         settings.setOnSettingChangeListener(settingChangeListener);
 
-        adapter = new SimpleAdapter(
-            getActivity(),
-            settings.getList(),
-            R.layout.list_alarm_item,
-            new String[] {
-                AlarmSettings.PREF_ONOFF,
-                AlarmSettings.PREF_TIME,
-                AlarmSettings.PREF_DAY,
-            },
-            new int[] {
-                R.id.alarm_onoff,
-                R.id.alarm_time,
-                R.id.alarm_day,
-            });
-        adapter.setViewBinder(viewBinder);
+        adapter = new AlarmListAdapter();
 
         setListAdapter(adapter);
     }
@@ -154,22 +142,73 @@ public class AlarmListFragment extends ListFragment
             }
         };
 
-    private SimpleAdapter.ViewBinder viewBinder =
-        new SimpleAdapter.ViewBinder() {
-            @Override
-            public boolean setViewValue(View view, Object data, String text) {
-                if(data instanceof EnumSet<?>) {
-                    @SuppressWarnings("unchecked")
-                    EnumSet<AlarmSettings.DayOfWeek> days =
-                        (EnumSet<AlarmSettings.DayOfWeek>)data;
-                    ((TextView)view).setText(
-                        AlarmSettings.getDayText(getActivity(), days));
+    private class AlarmListAdapter
+        extends SimpleAdapter
+        implements SimpleAdapter.ViewBinder, View.OnClickListener
+    {
+        private AlarmListAdapter()
+        {
+            super(getActivity(),
+                  settings.getList(),
+                  R.layout.list_alarm_item,
+                  new String[] {
+                      AlarmSettings.PREF_ONOFF,
+                      AlarmSettings.PREF_TIME,
+                      AlarmSettings.PREF_DAY,
+                  },
+                  new int[] {
+                      R.id.alarm_onoff,
+                      R.id.alarm_time,
+                      R.id.alarm_day,
+                  });
+            setViewBinder(this);
+        }
 
-                    return true;
-                }
-                else {
-                    return false;
-                }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
+            View view = super.getView(position, convertView, parent);
+
+            View viewOnOff = view.findViewById(R.id.alarm_onoff);
+            viewOnOff.setTag(Integer.valueOf(position));
+            viewOnOff.setOnClickListener(this);
+
+            return view;
+        }
+
+        @Override
+        public boolean setViewValue(View view, Object data, String text)
+        {
+            if(view.getId() == R.id.alarm_day) {
+                @SuppressWarnings("unchecked")
+                    EnumSet<AlarmSettings.DayOfWeek> days =
+                    (EnumSet<AlarmSettings.DayOfWeek>)data;
+                ((TextView)view).setText(
+                    AlarmSettings.getDayText(getActivity(), days));
+
+                return true;
             }
-        };
+            else {
+                return false;
+            }
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            Checkable check = (Checkable)v;
+            boolean val = check.isChecked();
+            int id = (Integer)v.getTag();
+
+            if(val && settings.getAlarms(id).length == 0) {
+                check.setChecked(false);
+                NoAlarmsDialogFragment f = new NoAlarmsDialogFragment();
+                f.show(getFragmentManager(), "NoAlarms");
+                return;
+            }
+
+            settings.setOnOff(id, val);
+            AlarmService.startSetupAlarms(getActivity());
+        }
+    }
 }

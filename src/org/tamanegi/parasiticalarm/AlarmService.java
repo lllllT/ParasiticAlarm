@@ -8,6 +8,7 @@ import java.util.Random;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.SystemClock;
@@ -44,6 +45,14 @@ public class AlarmService extends IntentService
         "org.tamanegi.parasiticalarm.extra.BACKGROUND";
     static final String EXTRA_VIBRATION_ENABLED =
         "org.tamanegi.parasiticalarm.extra.VIBRATION_ENABLED";
+
+    public static void startSetupAlarms(Context context)
+    {
+        // update alarms
+        Intent intent = new Intent(context, AlarmService.class)
+            .setAction(AlarmService.ACTION_SETUP);
+        context.startService(intent);
+    }
 
     public AlarmService()
     {
