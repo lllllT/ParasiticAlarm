@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Handler;
 import android.text.format.DateFormat;
 
 public class AlarmSettings
@@ -92,6 +93,7 @@ public class AlarmSettings
     private List<? extends Map<String, Object>> list;
     private SharedPreferences pref;
 
+    private Handler handler;
     private OnSettingChangeListener changeListener = null;
     private SharedPreferences.OnSharedPreferenceChangeListener prefListener =
         new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -103,7 +105,7 @@ public class AlarmSettings
                     return;
                 }
 
-                String subkey = matcher.group(2);
+                final String subkey = matcher.group(2);
                 int index;
                 try {
                     index = Integer.parseInt(matcher.group(1));
@@ -114,8 +116,14 @@ public class AlarmSettings
 
                 fillInSetting(index);
                 if(changeListener != null) {
-                    changeListener.onSettingChanged(
-                        AlarmSettings.this, index, subkey);
+                    final int idx = index;
+                    handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                changeListener.onSettingChanged(
+                                    AlarmSettings.this, idx, subkey);
+                            }
+                        });
                 }
             }
         };
@@ -138,6 +146,7 @@ public class AlarmSettings
             fillInSetting(i);
         }
 
+        handler = new Handler();
         pref.registerOnSharedPreferenceChangeListener(prefListener);
     }
 
