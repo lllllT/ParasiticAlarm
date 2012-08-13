@@ -26,7 +26,7 @@ public class AlertActivity extends Activity
     private static final long[] VIBRATE_PATTERN = { 500, 500 };
 
     private static final int AUDIO_MSGID = 1;
-    private static final long AUDIO_INTERVAL = 1000;
+    private static final long AUDIO_INTERVAL = 800;
 
     private Vibrator vibrator;
     private MediaPlayer mediaplayer;
@@ -45,10 +45,8 @@ public class AlertActivity extends Activity
 
     private ImageView image;
     private TextView messageText;
-    private View alertArea;
-    private View alertStopLine;
-    private View alertDismissLine;
-    private View alertSnooze;
+    private View stopArea;
+    private View snoozeArea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,10 +71,8 @@ public class AlertActivity extends Activity
         setContentView(R.layout.activity_alert);
         image = (ImageView)findViewById(R.id.alert_image);
         messageText = (TextView)findViewById(R.id.alert_message);
-        alertArea = findViewById(R.id.alert_area);
-        alertStopLine = findViewById(R.id.alert_stop_button);
-        alertDismissLine = findViewById(R.id.alert_dimiss_line);
-        alertSnooze = findViewById(R.id.alert_snooze_button);
+        stopArea = findViewById(R.id.alert_stop_area);
+        snoozeArea = findViewById(R.id.alert_snooze_area);
 
         findViewById(R.id.alert_stop_button)
             .setOnClickListener(onClickStopListener);
@@ -169,8 +165,6 @@ public class AlertActivity extends Activity
             intent.getParcelableExtra(AlarmService.EXTRA_AFTER_AUDIO);
         afterImage = (Uri)
             intent.getParcelableExtra(AlarmService.EXTRA_AFTER_IMAGE);
-        Uri background = (Uri)
-            intent.getParcelableExtra(AlarmService.EXTRA_BACKGROUND); // todo:
         vibrationEnabled =
             intent.getBooleanExtra(AlarmService.EXTRA_VIBRATION_ENABLED, false);
 
@@ -193,9 +187,8 @@ public class AlertActivity extends Activity
         isInAlert = true;
         isAfter = false;
 
-        alertArea.setVisibility(View.VISIBLE);
-        alertStopLine.setVisibility(View.VISIBLE);
-        alertDismissLine.setVisibility(View.GONE);
+        stopArea.setVisibility(View.VISIBLE);
+        snoozeArea.setVisibility(View.GONE);
 
         // todo: set volume
         playAudio(getNextAlertAudio());
@@ -211,10 +204,8 @@ public class AlertActivity extends Activity
     {
         isInAlert = false;
 
-        alertArea.setVisibility(View.VISIBLE);
-        alertStopLine.setVisibility(View.GONE);
-        alertDismissLine.setVisibility(View.VISIBLE);
-        alertSnooze.setEnabled(snoozeEnabled);
+        stopArea.setVisibility(View.GONE);
+        snoozeArea.setVisibility(View.VISIBLE);
 
         handler.removeMessages(AUDIO_MSGID);
         mediaplayer.reset();
@@ -239,7 +230,8 @@ public class AlertActivity extends Activity
     private void startAfter()
     {
         isAfter = true;
-        alertArea.setVisibility(View.GONE);
+        stopArea.setVisibility(View.GONE);
+        snoozeArea.setVisibility(View.GONE);
 
         image.setImageURI(afterImage);
         playAudio(afterAudio);
@@ -264,7 +256,7 @@ public class AlertActivity extends Activity
         new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertArea.setVisibility(View.GONE);
+                snoozeArea.setVisibility(View.GONE);
             }
         };
 

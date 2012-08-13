@@ -24,48 +24,67 @@
        />
 
     <LinearLayout
-       android:id="@+id/alert_area"
-       android:layout_width="wrap_content"
+       android:id="@+id/alert_stop_area"
+       android:layout_width="fill_parent"
        android:layout_height="wrap_content"
-       android:layout_gravity="center_horizontal"
+       android:layout_margin="32dp"
        android:orientation="vertical"
-       android:background="#80ffffff"
+       android:background="#a0000000"
        >
-
       <TextView
          android:id="@+id/alert_message"
-         android:layout_width="wrap_content"
+         android:layout_width="fill_parent"
          android:layout_height="wrap_content"
-         android:layout_margin="16dp"
-         android:layout_gravity="center_horizontal"
+         android:layout_marginTop="16dp"
+         android:gravity="center_horizontal"
+         android:textAppearance="?android:attr/textAppearanceMedium"
          />
-
       <Button
          android:id="@+id/alert_stop_button"
          android:text="@string/alert_stop"
-         android:layout_width="120dp"
+         android:layout_width="120sp"
          android:layout_height="wrap_content"
          android:layout_gravity="center_horizontal"
+         android:layout_margin="16dp"
          android:padding="16dp"
          android:gravity="center"
+         android:textAppearance="?android:attr/textAppearanceMedium"
          />
+    </LinearLayout>
 
+    <LinearLayout
+       android:id="@+id/alert_snooze_area"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="32dp"
+       android:orientation="vertical"
+       android:background="#a0000000"
+       >
+      <TextView
+         android:text="@string/alert_select_snooze"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_margin="16dp"
+         android:gravity="center_horizontal"
+         android:textAppearance="?android:attr/textAppearanceMedium"
+         />
       <LinearLayout
-         android:id="@+id/alert_dimiss_line"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_gravity="center_horizontal"
+         android:layout_marginBottom="16dp"
          android:orientation="horizontal"
          >
         <Button
            android:id="@+id/alert_snooze_button"
-           android:text="@string/alert_cancel_snooze"
+           android:text="@string/alert_stop_snooze"
            android:layout_width="120sp"
            android:layout_height="wrap_content"
            android:layout_marginLeft="16dp"
            android:layout_marginRight="16dp"
            android:padding="16dp"
            android:gravity="center"
+           android:textAppearance="?android:attr/textAppearanceMedium"
            />
         <Button
            android:id="@+id/alert_dismiss_button"
@@ -76,16 +95,10 @@
            android:layout_marginRight="16dp"
            android:padding="16dp"
            android:gravity="center"
+           android:textAppearance="?android:attr/textAppearanceMedium"
            />
       </LinearLayout>
-
     </LinearLayout>
-
-    <View
-       android:layout_width="1dp"
-       android:layout_height="0dp"
-       android:layout_weight="1"
-       />
 
   </LinearLayout>
 
