@@ -191,7 +191,7 @@ public class AlarmSettings
         // alarms
         {
             String alarmstr = pref.getString(prefix + PREF_ALARMS, "");
-            String [] alarms = (alarmstr.contains(",") ?
+            String [] alarms = (alarmstr.length() != 0 ?
                                 alarmstr.split(",") : new String[0]);
             setting.put(PREF_ALARMS, alarms);
         }
