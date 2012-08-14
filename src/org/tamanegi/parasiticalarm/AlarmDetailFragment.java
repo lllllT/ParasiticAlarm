@@ -417,6 +417,11 @@ public class AlarmDetailFragment extends Fragment
                 }
             }
 
+            if(vals.size() == 0 && settings.getOnOff(id)) {
+                NoAlarmsDialogFragment f = new NoAlarmsDialogFragment();
+                f.show(getFragmentManager(), "NoAlarms");
+                settings.setOnOff(id, false);
+            }
             settings.setAlarms(id, vals.toArray(new String[vals.size()]));
         }
 
