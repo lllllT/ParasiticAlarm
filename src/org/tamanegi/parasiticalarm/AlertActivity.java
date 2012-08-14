@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ public class AlertActivity extends Activity
     private static final int AUDIO_MSGID = 1;
     private static final long AUDIO_INTERVAL = 800;
 
+    private PowerManager.WakeLock wakelock;
     private Vibrator vibrator;
     private MediaPlayer mediaplayer;
     private Handler handler;
@@ -52,6 +54,12 @@ public class AlertActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        PowerManager pm = (PowerManager)getSystemService(POWER_SERVICE);
+        wakelock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK |
+                                  PowerManager.ACQUIRE_CAUSES_WAKEUP, "Alert");
+        wakelock.acquire();
+        AlertWakeLock.release();     // acquired at AlarmService#alarm
 
         vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
 
@@ -128,7 +136,7 @@ public class AlertActivity extends Activity
         unregisterReceiver(screenOffReceiver);
         mediaplayer.release();
 
-        AlertWakeLock.release();     // acquired at AlarmService#alarm
+        wakelock.release();
     }
 
     @Override
