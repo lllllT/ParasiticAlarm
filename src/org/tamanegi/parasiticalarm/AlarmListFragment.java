@@ -181,7 +181,7 @@ public class AlarmListFragment extends ListFragment
         {
             if(view.getId() == R.id.alarm_day) {
                 @SuppressWarnings("unchecked")
-                    EnumSet<AlarmSettings.DayOfWeek> days =
+                EnumSet<AlarmSettings.DayOfWeek> days =
                     (EnumSet<AlarmSettings.DayOfWeek>)data;
                 ((TextView)view).setText(
                     AlarmSettings.getDayText(getActivity(), days));

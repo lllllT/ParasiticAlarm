@@ -18,8 +18,11 @@ public class AlarmListActivity
 
         if(findViewById(R.id.alarm_detail_container) != null) {
             mTwoPane = true;
-            ((AlarmListFragment)getSupportFragmentManager().findFragmentById(
-                R.id.alarm_list)).setActivateOnItemClick(true);
+            AlarmListFragment f = (AlarmListFragment)
+                getSupportFragmentManager().findFragmentById(R.id.alarm_list);
+            f.setActivateOnItemClick(true);
+            f.setActivatedPosition(0);
+            onItemSelected(0);
         }
     }
 
