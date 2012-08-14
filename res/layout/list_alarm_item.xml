@@ -5,6 +5,7 @@
    android:layout_width="fill_parent"
    android:layout_height="wrap_content"
    android:padding="8dip"
+   android:background="@drawable/list_background_indicator"
    >
 
   <LinearLayout

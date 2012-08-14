@@ -22,6 +22,7 @@
        android:paddingTop="6dp"
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
+       android:background="@drawable/list_background_selector"
        >
       <TextView
          android:text="@string/pref_desc_onoff"
@@ -60,6 +61,7 @@
        android:paddingTop="6dp"
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
+       android:background="@drawable/list_background_selector"
        >
       <TextView
          android:text="@string/pref_desc_time"
@@ -93,6 +95,7 @@
        android:paddingTop="6dp"
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
+       android:background="@drawable/list_background_selector"
        >
       <TextView
          android:text="@string/pref_desc_alarm"
@@ -126,6 +129,7 @@
        android:paddingTop="6dp"
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
+       android:background="@drawable/list_background_selector"
        >
       <TextView
          android:text="@string/pref_desc_volume"
@@ -159,6 +163,7 @@
        android:paddingTop="6dp"
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
+       android:background="@drawable/list_background_selector"
        >
       <TextView
          android:text="@string/pref_desc_day"
@@ -191,6 +196,7 @@
        android:paddingTop="6dp"
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
+       android:background="@drawable/list_background_selector"
        >
       <LinearLayout
          android:orientation="vertical"
@@ -244,6 +250,7 @@
        android:paddingTop="6dp"
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
+       android:background="@drawable/list_background_selector"
        >
       <TextView
          android:text="@string/pref_desc_snooze_timeout"
@@ -278,6 +285,7 @@
        android:paddingTop="6dp"
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
+       android:background="@drawable/list_background_selector"
        >
       <TextView
          android:text="@string/pref_desc_vibration"

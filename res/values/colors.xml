@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="list_background_transition">#8033b5e5</color>
+  <color name="list_background_focus">#800099cc</color>
+  <color name="list_background_activated">#8000ddff</color>
+</resources>
