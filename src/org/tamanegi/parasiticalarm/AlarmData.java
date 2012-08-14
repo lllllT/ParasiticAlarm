@@ -470,9 +470,9 @@ public abstract class AlarmData
     private static Uri buildResourceUri(String packageName, String path)
     {
         return new Uri.Builder()
-            .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-            .authority(packageName)
-            .appendEncodedPath(path)
+            .scheme(ContentResolver.SCHEME_CONTENT)
+            .authority(ResourceProxyProvider.AUTHORITY)
+            .appendEncodedPath(packageName + "/" + path)
             .build();
     }
 }
