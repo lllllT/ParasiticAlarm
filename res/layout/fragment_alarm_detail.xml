@@ -23,6 +23,8 @@
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
        android:background="@drawable/list_background_selector"
+       android:focusable="true"
+       android:clickable="true"
        >
       <TextView
          android:text="@string/pref_desc_onoff"
@@ -62,6 +64,8 @@
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
        android:background="@drawable/list_background_selector"
+       android:focusable="true"
+       android:clickable="true"
        >
       <TextView
          android:text="@string/pref_desc_time"
@@ -96,6 +100,8 @@
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
        android:background="@drawable/list_background_selector"
+       android:focusable="true"
+       android:clickable="true"
        >
       <TextView
          android:text="@string/pref_desc_alarm"
@@ -130,6 +136,8 @@
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
        android:background="@drawable/list_background_selector"
+       android:focusable="true"
+       android:clickable="true"
        >
       <TextView
          android:text="@string/pref_desc_volume"
@@ -164,6 +172,8 @@
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
        android:background="@drawable/list_background_selector"
+       android:focusable="true"
+       android:clickable="true"
        >
       <TextView
          android:text="@string/pref_desc_day"
@@ -197,6 +207,8 @@
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
        android:background="@drawable/list_background_selector"
+       android:focusable="true"
+       android:clickable="true"
        >
       <LinearLayout
          android:orientation="vertical"
@@ -251,6 +263,8 @@
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
        android:background="@drawable/list_background_selector"
+       android:focusable="true"
+       android:clickable="true"
        >
       <TextView
          android:text="@string/pref_desc_snooze_timeout"
@@ -286,6 +300,8 @@
        android:paddingBottom="6dp"
        android:minHeight="?android:attr/listPreferredItemHeight"
        android:background="@drawable/list_background_selector"
+       android:focusable="true"
+       android:clickable="true"
        >
       <TextView
          android:text="@string/pref_desc_vibration"
