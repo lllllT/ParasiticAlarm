@@ -14,9 +14,9 @@ public class AlarmDetailActivity extends FragmentActivity
 
         if(savedInstanceState == null) {
             Bundle arguments = new Bundle();
-            arguments.putString(
+            arguments.putInt(
                 AlarmDetailFragment.ARG_ITEM_ID,
-                getIntent().getStringExtra(AlarmDetailFragment.ARG_ITEM_ID));
+                getIntent().getIntExtra(AlarmDetailFragment.ARG_ITEM_ID, 0));
 
             AlarmDetailFragment fragment = new AlarmDetailFragment();
             fragment.setArguments(arguments);
