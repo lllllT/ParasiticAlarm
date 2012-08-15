@@ -632,7 +632,15 @@ public class AlarmDetailFragment extends Fragment
         public void onClick(DialogInterface dialog, int which)
         {
             // on click ok button
-            int val = Integer.parseInt(edit.getText().toString());
+            int val;
+            try {
+                val = Integer.parseInt(edit.getText().toString());
+            }
+            catch(NumberFormatException e) {
+                // ignore
+                return;
+            }
+
             onClickOk(val);
         }
 
@@ -640,7 +648,14 @@ public class AlarmDetailFragment extends Fragment
         public void onClick(View view)
         {
             // on click increment/decrement button
-            int val = Integer.parseInt(edit.getText().toString());
+            int val;
+            try {
+                val = Integer.parseInt(edit.getText().toString());
+            }
+            catch(NumberFormatException e) {
+                // ignore
+                return;
+            }
 
             val += (view.getId() == R.id.numberpicker_increment ? +1 : -1);
             if(val < 1) {
