@@ -187,6 +187,7 @@ public abstract class AlarmData
         return null;
     }
 
+    @SuppressWarnings("serial")
     private static class AlarmDataNotFoundException extends RuntimeException
     {
         private AlarmDataNotFoundException()

@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ public class AlertActivity extends Activity
 
     private static final int AUDIO_MSGID = 1;
     private static final long AUDIO_INTERVAL = 800;
+    private static final long AUDIO_TOTAL_DURATION = 120000;
 
     private PowerManager.WakeLock wakelock;
     private Vibrator vibrator;
@@ -36,6 +38,7 @@ public class AlertActivity extends Activity
 
     private boolean isInAlert;
     private boolean isAfter;
+    private long alertStartTime;
 
     private int alarmId;
     private boolean snoozeEnabled;
@@ -205,7 +208,7 @@ public class AlertActivity extends Activity
             vibrator.vibrate(VIBRATE_PATTERN, 0);
         }
 
-        // todo: set stop timer
+        alertStartTime = SystemClock.elapsedRealtime();
     }
 
     private void stopAlert()
@@ -313,7 +316,11 @@ public class AlertActivity extends Activity
         new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                if(! isAfter) {
+                long cur = SystemClock.elapsedRealtime();
+                if(cur > alertStartTime + AUDIO_TOTAL_DURATION) {
+                    stopAlert();
+                }
+                else if(! isAfter) {
                     handler.sendMessageDelayed(
                         Message.obtain(
                             handler, AUDIO_MSGID, getNextAlertAudio()),
