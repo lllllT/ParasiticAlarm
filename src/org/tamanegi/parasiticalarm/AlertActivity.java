@@ -317,14 +317,17 @@ public class AlertActivity extends Activity
             @Override
             public void onCompletion(MediaPlayer mp) {
                 long cur = SystemClock.elapsedRealtime();
-                if(cur > alertStartTime + AUDIO_TOTAL_DURATION) {
-                    stopAlert();
-                }
-                else if(! isAfter) {
-                    handler.sendMessageDelayed(
-                        Message.obtain(
-                            handler, AUDIO_MSGID, getNextAlertAudio()),
-                        AUDIO_INTERVAL);
+
+                if(! isAfter) {
+                    if(cur > alertStartTime + AUDIO_TOTAL_DURATION) {
+                        stopAlert();
+                    }
+                    else {
+                        handler.sendMessageDelayed(
+                            Message.obtain(
+                                handler, AUDIO_MSGID, getNextAlertAudio()),
+                            AUDIO_INTERVAL);
+                    }
                 }
                 else {
                     mp.reset();
