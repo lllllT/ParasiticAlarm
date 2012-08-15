@@ -20,6 +20,13 @@ import android.net.Uri;
 
 public abstract class AlarmData
 {
+    private static List<AlarmData> alarmDataCache = null;
+    private static Map<String, AlarmData> alarmMapCache;
+
+    static {
+        alarmMapCache = new HashMap<String, AlarmData>();
+    }
+
     protected String name;
     protected Uri icon;
     protected Uri[] alert_audio;
@@ -73,6 +80,21 @@ public abstract class AlarmData
 
     public static AlarmData unflattenFromString(Context context, String str)
     {
+        if(alarmMapCache.containsKey(str)) {
+            return alarmMapCache.get(str);
+        }
+
+        AlarmData data = unflattenFromStringNoCached(context, str);
+        if(data != null) {
+            alarmMapCache.put(str, data);
+        }
+
+        return data;
+    }
+
+    public static AlarmData unflattenFromStringNoCached(
+        Context context, String str)
+    {
         String[] params = str.split("/");
 
         try {
@@ -99,6 +121,10 @@ public abstract class AlarmData
 
     public static List<AlarmData> getAllAvailableAlarmData(Context context)
     {
+        if(alarmDataCache != null) {
+            return alarmDataCache;
+        }
+
         List<AlarmData> list = new ArrayList<AlarmData>();
 
         PackageManager pm = context.getPackageManager();
@@ -116,6 +142,7 @@ public abstract class AlarmData
             }
         }
 
+        alarmDataCache = list;
         return list;
     }
 
@@ -134,8 +161,8 @@ public abstract class AlarmData
                         idx += 1;
                     }
                 }
-                catch(Exception e) {
-                    e.printStackTrace();
+                catch(AlarmDataNotFoundException e) {
+                    // ignore
                 }
 
                 return list.toArray(new AlarmData[list.size()]);
@@ -158,6 +185,28 @@ public abstract class AlarmData
         }
 
         return null;
+    }
+
+    private static class AlarmDataNotFoundException extends RuntimeException
+    {
+        private AlarmDataNotFoundException()
+        {
+        }
+
+        private AlarmDataNotFoundException(String msg)
+        {
+            super(msg);
+        }
+
+        private AlarmDataNotFoundException(String msg, Throwable cause)
+        {
+            super(msg, cause);
+        }
+
+        private AlarmDataNotFoundException(Throwable cause)
+        {
+            super(cause);
+        }
     }
 
     private static class BiglobeAlarmData extends AlarmData
@@ -209,6 +258,11 @@ public abstract class AlarmData
 
                 for(int i = 0; i < 6; i++) {
                     String[] rel = relation.get(message[i]);
+                    if(rel == null) {
+                        throw new AlarmDataNotFoundException(
+                            "picture-audio relation not found");
+                    }
+
                     for(int j = 1; j < rel.length; j++) {
                         String name = rel[j];
                         if(names.contains(name)) {
@@ -266,7 +320,7 @@ public abstract class AlarmData
 
             for(int i = 0; i < idx; i++) {
                 if(buf.readLine() == null) {
-                    throw new IllegalStateException(
+                    throw new AlarmDataNotFoundException(
                         "Specified index not found in message.csv: " +
                         packageName + ", " + idx);
                 }
@@ -274,7 +328,7 @@ public abstract class AlarmData
 
             String line = buf.readLine();
             if(line == null) {
-                throw new IllegalStateException(
+                throw new AlarmDataNotFoundException(
                     "Specified index not found in message.csv: " +
                     packageName + ", " + idx);
             }

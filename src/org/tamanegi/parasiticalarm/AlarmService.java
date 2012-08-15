@@ -109,7 +109,7 @@ public class AlarmService extends IntentService
         String[] alarms = settings.getAlarms(index);
         ArrayList<AlarmData> list = new ArrayList<AlarmData>();
         for(String alarm : alarms) {
-            AlarmData d = AlarmData.unflattenFromString(this, alarm);
+            AlarmData d = AlarmData.unflattenFromStringNoCached(this, alarm);
             if(d == null) {
                 continue;
             }
