@@ -61,6 +61,7 @@ public class AlertActivity extends Activity
         PowerManager pm = (PowerManager)getSystemService(POWER_SERVICE);
         wakelock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK |
                                   PowerManager.ACQUIRE_CAUSES_WAKEUP, "Alert");
+        wakelock.setReferenceCounted(false);
         wakelock.acquire();
         AlertWakeLock.release();     // acquired at AlarmService#alarm
 
@@ -103,6 +104,7 @@ public class AlertActivity extends Activity
     {
         super.onNewIntent(intent);
 
+        wakelock.acquire();
         AlertWakeLock.release();     // acquired at AlarmService#alarm
 
         applyParameters(intent);
@@ -198,6 +200,11 @@ public class AlertActivity extends Activity
         isInAlert = true;
         isAfter = false;
 
+        wakelock.acquire();
+        getWindow().addFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
         stopArea.setVisibility(View.VISIBLE);
         snoozeArea.setVisibility(View.GONE);
 
@@ -214,6 +221,11 @@ public class AlertActivity extends Activity
     private void stopAlert()
     {
         isInAlert = false;
+
+        wakelock.release();
+        getWindow().clearFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         stopArea.setVisibility(View.GONE);
         snoozeArea.setVisibility(View.VISIBLE);
