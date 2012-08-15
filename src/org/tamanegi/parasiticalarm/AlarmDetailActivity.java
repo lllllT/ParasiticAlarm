@@ -1,9 +1,8 @@
 package org.tamanegi.parasiticalarm;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
-public class AlarmDetailActivity extends FragmentActivity
+public class AlarmDetailActivity extends BackgroundImageActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)

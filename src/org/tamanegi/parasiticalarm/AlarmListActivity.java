@@ -2,15 +2,14 @@ package org.tamanegi.parasiticalarm;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 public class AlarmListActivity
-    extends FragmentActivity implements AlarmListFragment.Callbacks
+    extends BackgroundImageActivity implements AlarmListFragment.Callbacks
 {
     private boolean mTwoPane;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
