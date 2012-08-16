@@ -5,7 +5,7 @@
      android:id="@+id/alert_image"
      android:layout_width="fill_parent"
      android:layout_height="fill_parent"
-     android:scaleType="fitCenter"
+     android:scaleType="centerCrop"
      />
 
   <LinearLayout
@@ -26,7 +26,7 @@
        android:layout_height="wrap_content"
        android:layout_margin="32dp"
        android:orientation="vertical"
-       android:background="#a0000000"
+       android:background="@color/alert_message_background"
        >
       <TextView
          android:id="@+id/alert_message"
@@ -55,7 +55,7 @@
        android:layout_height="wrap_content"
        android:layout_margin="32dp"
        android:orientation="vertical"
-       android:background="#a0000000"
+       android:background="@color/alert_message_background"
        >
       <TextView
          android:text="@string/alert_select_snooze"

@@ -3,4 +3,6 @@
   <color name="list_background_pressed">#8033b5e5</color>
   <color name="list_background_focus">#800099cc</color>
   <color name="list_background_activated">#8000ddff</color>
+
+  <color name="alert_message_background">#80ffffff</color>
 </resources>
