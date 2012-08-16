@@ -50,6 +50,15 @@ public class AlarmListFragment extends ListFragment
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+
+        getListView().setSelector(R.drawable.list_background_selector);
+        getListView().setBackgroundResource(0);
+    }
+
+    @Override
     public void onDestroy()
     {
         super.onDestroy();
