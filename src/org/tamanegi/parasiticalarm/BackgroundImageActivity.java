@@ -11,7 +11,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
 
-public class BackgroundImageActivity extends FragmentActivity
+public abstract class BackgroundImageActivity extends FragmentActivity
 {
     private static final int INTERVAL = 1000 * 10;
 

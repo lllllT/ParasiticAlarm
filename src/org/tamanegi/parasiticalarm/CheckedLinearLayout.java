@@ -1,5 +1,6 @@
 package org.tamanegi.parasiticalarm;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Checkable;
@@ -36,6 +37,7 @@ public class CheckedLinearLayout
         getCheckable().toggle();
     }
 
+    @SuppressLint("WrongViewCast")
     private Checkable getCheckable()
     {
         return (Checkable)findViewById(R.id.item_check);
