@@ -1,10 +1,13 @@
 package org.tamanegi.parasiticalarm;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,10 +18,13 @@ import android.widget.ImageView;
 public abstract class BackgroundImageActivity extends FragmentActivity
 {
     private static final int INTERVAL = 1000 * 10;
+    private static final int TRANSITION = 500;
 
     private static List<Uri> backgrounds = null;
     private static int backgroundIndex = 0;
 
+    private TransitionDrawable bgDrawable = null;
+    private Drawable lastDrawable;
     private ImageView bgImage;
     private Handler handler = null;
 
@@ -27,6 +33,7 @@ public abstract class BackgroundImageActivity extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
 
+        lastDrawable = getResources().getDrawable(R.drawable.empty_background);
         handler = new Handler(backgroundCallback);
 
         if(backgrounds == null) {
@@ -82,9 +89,32 @@ public abstract class BackgroundImageActivity extends FragmentActivity
 
     private void updateBackground()
     {
-        bgImage.setImageURI(backgrounds.get(backgroundIndex));
+        Uri uri = backgrounds.get(backgroundIndex);
         backgroundIndex += 1;
         backgroundIndex %= backgrounds.size();
+
+        Drawable d;
+        try {
+            d = Drawable.createFromStream(
+                getContentResolver().openInputStream(uri),
+                uri.toString());
+        }
+        catch(FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        Drawable[] drawables = new Drawable[2];
+        drawables[0] = lastDrawable;
+        drawables[1] = d;
+        bgDrawable = new TransitionDrawable(drawables);
+
+        bgDrawable.setId(0, 0);
+        bgDrawable.setId(1, 1);
+        bgImage.setImageDrawable(bgDrawable);
+
+        bgDrawable.startTransition(TRANSITION);
+        lastDrawable = d;
 
         handler.removeMessages(0);
         handler.sendEmptyMessageDelayed(0, INTERVAL);
