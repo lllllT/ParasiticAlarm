@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <style name="ListTextAppearance"
-         parent="@android:style/TextAppearance.Medium">
+  <style name="ListTextStyle">
+    <item name="android:textAppearance">
+      ?android:attr/textAppearanceMedium</item>
+    <item name="android:textStyle">bold</item>
     <item name="android:textColor">@color/list_text_color</item>
     <item name="android:shadowColor">@color/list_text_shadow_color</item>
     <item name="android:shadowDx">1</item>
     <item name="android:shadowDy">1</item>
     <item name="android:shadowRadius">2</item>
-    <item name="android:textStyle">bold</item>
   </style>
 
-  <style name="ListTextAppearance.Primary">
+  <style name="ListTextStyle.Primary">
     <item name="android:textSize">18sp</item>
   </style>
 
-  <style name="ListTextAppearance.Secondary">
+  <style name="ListTextStyle.Secondary">
     <item name="android:textSize">14sp</item>
   </style>
 </resources>

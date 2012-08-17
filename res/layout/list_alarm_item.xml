@@ -20,13 +20,13 @@
        android:id="@+id/alarm_time"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       style="@style/ListTextAppearance.Primary"
+       style="@style/ListTextStyle.Primary"
        />
     <TextView
        android:id="@+id/alarm_day"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       style="@style/ListTextAppearance.Secondary"
+       style="@style/ListTextStyle.Secondary"
        />
 
   </LinearLayout>

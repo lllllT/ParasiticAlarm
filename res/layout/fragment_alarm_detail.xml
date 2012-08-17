@@ -32,7 +32,7 @@
          android:layout_height="wrap_content"
          android:layout_weight="1"
          android:layout_gravity="center_vertical"
-         style="@style/ListTextAppearance.Primary"
+         style="@style/ListTextStyle.Primary"
          />
       <CheckBox
          android:id="@+id/pref_check_onoff"
@@ -71,13 +71,13 @@
          android:text="@string/pref_desc_time"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         style="@style/ListTextAppearance.Primary"
+         style="@style/ListTextStyle.Primary"
          />
       <TextView
          android:id="@+id/pref_summary_time"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         style="@style/ListTextAppearance.Secondary"
+         style="@style/ListTextStyle.Secondary"
          />
     </LinearLayout>
 
@@ -106,13 +106,13 @@
          android:text="@string/pref_desc_alarm"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         style="@style/ListTextAppearance.Primary"
+         style="@style/ListTextStyle.Primary"
          />
       <TextView
          android:id="@+id/pref_summary_alarm"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         style="@style/ListTextAppearance.Secondary"
+         style="@style/ListTextStyle.Secondary"
          />
     </LinearLayout>
 
@@ -141,13 +141,13 @@
          android:text="@string/pref_desc_volume"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         style="@style/ListTextAppearance.Primary"
+         style="@style/ListTextStyle.Primary"
          />
       <TextView
          android:id="@+id/pref_summary_volume"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         style="@style/ListTextAppearance.Secondary"
+         style="@style/ListTextStyle.Secondary"
          />
     </LinearLayout>
 
@@ -176,13 +176,13 @@
          android:text="@string/pref_desc_day"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         style="@style/ListTextAppearance.Primary"
+         style="@style/ListTextStyle.Primary"
          />
       <TextView
          android:id="@+id/pref_summary_day"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         style="@style/ListTextAppearance.Secondary"
+         style="@style/ListTextStyle.Secondary"
          />
     </LinearLayout>
 
@@ -219,14 +219,14 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:duplicateParentState="true"
-           style="@style/ListTextAppearance.Primary"
+           style="@style/ListTextStyle.Primary"
            />
         <TextView
            android:id="@+id/pref_summary_snooze_interval"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:duplicateParentState="true"
-           style="@style/ListTextAppearance.Secondary"
+           style="@style/ListTextStyle.Secondary"
            />
       </LinearLayout>
       <CheckBox
@@ -266,14 +266,14 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:duplicateParentState="true"
-         style="@style/ListTextAppearance.Primary"
+         style="@style/ListTextStyle.Primary"
          />
       <TextView
          android:id="@+id/pref_summary_snooze_timeout"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:duplicateParentState="true"
-         style="@style/ListTextAppearance.Secondary"
+         style="@style/ListTextStyle.Secondary"
          />
     </LinearLayout>
 
@@ -303,7 +303,7 @@
          android:layout_height="wrap_content"
          android:layout_weight="1"
          android:layout_gravity="center_vertical"
-         style="@style/ListTextAppearance.Primary"
+         style="@style/ListTextStyle.Primary"
          />
       <CheckBox
          android:id="@+id/pref_check_vibration"
