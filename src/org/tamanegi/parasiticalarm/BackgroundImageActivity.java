@@ -2,6 +2,7 @@ package org.tamanegi.parasiticalarm;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import android.net.Uri;
@@ -29,16 +30,18 @@ public abstract class BackgroundImageActivity extends FragmentActivity
         handler = new Handler(backgroundCallback);
 
         if(backgrounds == null) {
-            backgrounds = new ArrayList<Uri>();
+            HashSet<Uri> uriSet = new HashSet<Uri>();
             for(AlarmData data : AlarmData.getAllAvailableAlarmData(this)) {
                 if(data.getBackground() == null) {
                     continue;
                 }
 
                 for(Uri uri : data.getBackground()) {
-                    backgrounds.add(uri);
+                    uriSet.add(uri);
                 }
             }
+
+            backgrounds = new ArrayList<Uri>(uriSet);
             Collections.shuffle(backgrounds);
         }
     }
