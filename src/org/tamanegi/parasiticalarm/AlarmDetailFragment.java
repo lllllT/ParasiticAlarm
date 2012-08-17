@@ -18,10 +18,10 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -339,21 +339,24 @@ public class AlarmDetailFragment extends Fragment
         extends DetailDialogFragment
         implements SimpleAdapter.ViewBinder,
                    DialogInterface.OnClickListener,
-                   View.OnClickListener
+                   View.OnClickListener,
+                   AdapterView.OnItemClickListener
     {
         private static final String KEY_ICON = "icon";
         private static final String KEY_LABEL = "label";
+        private static final String KEY_CHECK = "check";
 
         private static final String[] ITEM_FROM = {
-            KEY_ICON, KEY_LABEL
+            KEY_ICON, KEY_LABEL, KEY_CHECK
         };
         private static final int[] ITEM_TO = {
-            R.id.item_icon, R.id.item_label
+            R.id.item_icon, R.id.item_label, R.id.item_check
         };
 
         private SimpleAdapter adapter;
         private ListView listView;
         private List<AlarmData> alarms;
+        private List<Map<String, Object>> listData;
 
         @Override
         public Dialog onCreateDialog(Bundle savedState)
@@ -366,18 +369,13 @@ public class AlarmDetailFragment extends Fragment
             listView = (ListView)view.findViewById(R.id.alarm_list);
 
             alarms = AlarmData.getAllAvailableAlarmData(getActivity());
+            listData = buildList();
             adapter = new SimpleAdapter(
-                getActivity(), buildList(), R.layout.alarm_item,
+                getActivity(), listData, R.layout.alarm_item,
                 ITEM_FROM, ITEM_TO);
             listView.setAdapter(adapter);
-            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
-            List<String> curNames = Arrays.asList(settings.getAlarms(id));
-            for(int i = 0; i < alarms.size(); i++) {
-                AlarmData alarm = alarms.get(i);
-                listView.setItemChecked(
-                    i, curNames.contains(alarm.flattenToString()));
-            }
+            listView.setChoiceMode(ListView.CHOICE_MODE_NONE);
+            listView.setOnItemClickListener(this);
 
             // select all/none button
             view.findViewById(R.id.alarm_select_none).setOnClickListener(this);
@@ -407,12 +405,10 @@ public class AlarmDetailFragment extends Fragment
         public void onClick(DialogInterface dialog, int which)
         {
             // on click ok button
-            SparseBooleanArray checkedPositions =
-                listView.getCheckedItemPositions();
             ArrayList<String> vals = new ArrayList<String>();
 
             for(int i = 0; i < alarms.size(); i++) {
-                if(checkedPositions.get(i)) {
+                if((Boolean)listData.get(i).get(KEY_CHECK)) {
                     vals.add(alarms.get(i).flattenToString());
                 }
             }
@@ -431,19 +427,34 @@ public class AlarmDetailFragment extends Fragment
             // on click select all/none button
             boolean val = (view.getId() == R.id.alarm_select_all);
             for(int i = 0; i < alarms.size(); i++) {
-                listView.setItemChecked(i, val);
+                listData.get(i).put(KEY_CHECK, val);
             }
+
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onItemClick(
+            AdapterView<?> parent, View view, int position, long id)
+        {
+            // on click list item
+            Map<String, Object> map = listData.get(position);
+            boolean val = (! (Boolean)map.get(KEY_CHECK));
+            map.put(KEY_CHECK, val);
+            ((CheckBox)view.findViewById(R.id.item_check)).setChecked(val);
         }
 
         private List<Map<String, Object>> buildList()
         {
             List<Map<String, Object>> data =
                 new ArrayList<Map<String, Object>>();
+            List<String> curNames = Arrays.asList(settings.getAlarms(id));
 
             for(AlarmData alarm : alarms) {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put(KEY_ICON, alarm.getIcon());
                 map.put(KEY_LABEL, alarm.getName());
+                map.put(KEY_CHECK, curNames.contains(alarm.flattenToString()));
                 data.add(map);
             }
 
