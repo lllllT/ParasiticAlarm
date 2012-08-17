@@ -139,6 +139,7 @@ public abstract class AlarmData
 
             for(AlarmData d : data) {
                 list.add(d);
+                alarmMapCache.put(d.flattenToString(), d);
             }
         }
 
