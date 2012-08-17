@@ -278,11 +278,10 @@ public abstract class AlarmData
                     image.add(
                         buildAssetUri(packageName, "/data/" + message[i]));
                 }
+                image.add(buildAssetUri(packageName, "/data/" + message[6]));
 
                 alert_audio = audio.toArray(new Uri[audio.size()]);
                 alert_image = image.toArray(new Uri[image.size()]);
-
-                image.add(buildAssetUri(packageName, "/data/" + message[6]));
                 after_image = image.toArray(new Uri[image.size()]);
             }
 

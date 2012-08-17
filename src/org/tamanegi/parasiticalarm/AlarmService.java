@@ -2,7 +2,9 @@ package org.tamanegi.parasiticalarm;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Random;
 
 import android.app.AlarmManager;
@@ -124,18 +126,28 @@ public class AlarmService extends IntentService
         Random random = new Random();
         AlarmData data = list.get(random.nextInt(list.size()));
 
+        Uri alertImage = getRandomElement(random, data.getAlertImage());
+
+        Uri[] afterImageAry = data.getAfterImage();
+        ArrayList<Uri> afterImageList = new ArrayList<Uri>();
+        if(afterImageAry != null) {
+            Collections.addAll(afterImageList, afterImageAry);
+        }
+        afterImageList.remove(alertImage);
+        Uri afterImage = (afterImageList.size() != 0 ?
+                          getRandomElement(random, afterImageList) :
+                          getRandomElement(random, afterImageAry));
+
         // build intent
         Intent activityIntent = new Intent(this, AlertActivity.class)
             .putExtra(EXTRA_ALARM_ID, index)
             .putExtra(EXTRA_SNOOZE_ENABLED, settings.isSnoozeEnabled(index))
             .putExtra(EXTRA_ALERT_AUDIO, data.getAlertAudio())
-            .putExtra(EXTRA_ALERT_IMAGE,
-                      getRandomElement(random, data.getAlertImage()))
+            .putExtra(EXTRA_ALERT_IMAGE, alertImage)
             .putExtra(EXTRA_ALERT_MESSAGE, data.getAlertMessage())
             .putExtra(EXTRA_AFTER_AUDIO,
                       getRandomElement(random, data.getAfterAudio()))
-            .putExtra(EXTRA_AFTER_IMAGE,
-                      getRandomElement(random, data.getAfterImage()))
+            .putExtra(EXTRA_AFTER_IMAGE, afterImage)
             .putExtra(EXTRA_BACKGROUND,
                       getRandomElement(random, data.getBackground()))
             .putExtra(EXTRA_VIBRATION_ENABLED, settings.getVibration(index))
@@ -296,6 +308,16 @@ public class AlarmService extends IntentService
     {
         if(array != null) {
             return array[random.nextInt(array.length)];
+        }
+        else {
+            return null;
+        }
+    }
+
+    private static <T> T getRandomElement(Random random, List<T> list)
+    {
+        if(list != null) {
+            return list.get(random.nextInt(list.size()));
         }
         else {
             return null;
