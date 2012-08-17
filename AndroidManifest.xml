@@ -61,9 +61,11 @@
     </receiver>
 
     <provider android:name=".AssetProxyProvider"
-              android:authorities="org.tamanegi.parasiticalarm.assetproxy" />
+              android:authorities="org.tamanegi.parasiticalarm.assetproxy"
+              android:exported="false" />
     <provider android:name=".ResourceProxyProvider"
-              android:authorities="org.tamanegi.parasiticalarm.resourceproxy" />
+              android:authorities="org.tamanegi.parasiticalarm.resourceproxy"
+              android:exported="false" />
 
   </application>
 </manifest>
