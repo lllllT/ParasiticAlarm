@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <style name="MainTheme" parent="@android:style/Theme.Light">
-    <item name="android:listSelector">@android:color/transparent</item>
-  </style>
-
-  <style name="AlertTheme" parent="@style/MainTheme" >
-    <item name="android:windowNoTitle">true</item>
-  </style>
+  <style name="MainTheme" parent="@android:style/Theme.Light.NoTitleBar" />
 </resources>
