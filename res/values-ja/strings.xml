@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">ParasiticAlarm</string>
+
+  <string name="day_of_week_abbr_mon">月</string>
+  <string name="day_of_week_abbr_tue">火</string>
+  <string name="day_of_week_abbr_wed">水</string>
+  <string name="day_of_week_abbr_thu">木</string>
+  <string name="day_of_week_abbr_fri">金</string>
+  <string name="day_of_week_abbr_sat">土</string>
+  <string name="day_of_week_abbr_sun">日</string>
+  <string name="day_of_week_full_mon">月曜日</string>
+  <string name="day_of_week_full_tue">火曜日</string>
+  <string name="day_of_week_full_wed">水曜日</string>
+  <string name="day_of_week_full_thu">木曜日</string>
+  <string name="day_of_week_full_fri">金曜日</string>
+  <string name="day_of_week_full_sat">土曜日</string>
+  <string name="day_of_week_full_sun">日曜日</string>
+  <string name="day_of_week_separator"></string>
+  <string name="day_once">1回のみ</string>
+
+  <string name="pref_desc_onoff">アラームを有効にする</string>
+  <string name="pref_desc_time">時刻</string>
+  <string name="pref_desc_alarm">アラーム選択</string>
+  <string name="pref_summary_alarm_separator">", "</string>
+  <string name="pref_desc_volume">アラーム音量</string>
+  <string name="pref_summary_volume">%d</string>
+  <string name="pref_desc_day">繰り返し</string>
+  <string name="pref_desc_snooze_interval">スヌーズ間隔</string>
+  <plurals name="pref_summary_snooze_interval">
+    <item quantity="other">%d分</item>
+  </plurals>
+  <string name="pref_desc_snooze_timeout">スヌーズ タイムアウト</string>
+  <plurals name="pref_summary_snooze_timeout">
+    <item quantity="other">%d分</item>
+  </plurals>
+  <string name="pref_desc_vibration">バイブレーション</string>
+
+  <string name="alarm_select_none">全解除</string>
+  <string name="alarm_select_all">全選択</string>
+
+  <string name="volume_use_system">システム設定を使用する</string>
+
+  <string name="msg_no_alarms">アラームが選択されていません。</string>
+
+  <string name="alert_stop">停止</string>
+  <string name="alert_select_snooze">スヌーズを止める？</string>
+  <string name="alert_stop_snooze">止める</string>
+  <string name="alert_dismiss_message">閉じる</string>
+
+</resources>

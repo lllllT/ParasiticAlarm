@@ -34,7 +34,6 @@
   </plurals>
   <string name="pref_desc_snooze_timeout">Snooze timeout</string>
   <plurals name="pref_summary_snooze_timeout">
-    <item quantity="zero">Infinitely</item>
     <item quantity="one">One minute</item>
     <item quantity="other">%d mitunes</item>
   </plurals>
