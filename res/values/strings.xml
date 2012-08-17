@@ -3,9 +3,6 @@
 
   <string name="app_name">ParasiticAlarm</string>
 
-  <string name="title_alarm_detail">Alarm Detail</string>
-  <string name="title_alarm_list">Alarms</string>
-
   <string name="day_of_week_abbr_mon">Mon</string>
   <string name="day_of_week_abbr_tue">Tue</string>
   <string name="day_of_week_abbr_wed">Wed</string>
