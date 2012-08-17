@@ -47,6 +47,8 @@ public class AlarmService extends IntentService
         "org.tamanegi.parasiticalarm.extra.BACKGROUND";
     static final String EXTRA_VIBRATION_ENABLED =
         "org.tamanegi.parasiticalarm.extra.VIBRATION_ENABLED";
+    static final String EXTRA_AUDIO_VOLUME =
+        "org.tamanegi.parasiticalarm.extra.AUDIO_VOLUME";
 
     public static void startSetupAlarms(Context context)
     {
@@ -151,6 +153,7 @@ public class AlarmService extends IntentService
             .putExtra(EXTRA_BACKGROUND,
                       getRandomElement(random, data.getBackground()))
             .putExtra(EXTRA_VIBRATION_ENABLED, settings.getVibration(index))
+            .putExtra(EXTRA_AUDIO_VOLUME, settings.getVolume(index))
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         // start alert activity

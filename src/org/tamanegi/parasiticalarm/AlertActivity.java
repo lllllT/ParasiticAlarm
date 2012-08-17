@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class AlertActivity extends Activity
     private boolean isInAlert;
     private boolean isAfter;
     private long alertStartTime;
+    private int savedVolume = -1;
 
     private int alarmId;
     private boolean snoozeEnabled;
@@ -47,6 +49,7 @@ public class AlertActivity extends Activity
     private Uri afterAudio;
     private Uri afterImage;
     private boolean vibrationEnabled;
+    private int audioVolume;
 
     private ImageView image;
     private TextView messageText;
@@ -68,6 +71,7 @@ public class AlertActivity extends Activity
         vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
 
         mediaplayer = new MediaPlayer();
+        mediaplayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         mediaplayer.setOnPreparedListener(onPlayerPreparedListener);
         mediaplayer.setOnCompletionListener(onPlayerCompletionListener);
         mediaplayer.setOnErrorListener(onPlayerErrorListener);
@@ -140,6 +144,7 @@ public class AlertActivity extends Activity
 
         unregisterReceiver(screenOffReceiver);
         mediaplayer.release();
+        restoreAudioVolume();
 
         wakelock.release();
     }
@@ -180,6 +185,7 @@ public class AlertActivity extends Activity
             intent.getParcelableExtra(AlarmService.EXTRA_AFTER_IMAGE);
         vibrationEnabled =
             intent.getBooleanExtra(AlarmService.EXTRA_VIBRATION_ENABLED, false);
+        audioVolume = intent.getIntExtra(AlarmService.EXTRA_AUDIO_VOLUME, -1);
 
         Uri alertImage = (Uri)
             intent.getParcelableExtra(AlarmService.EXTRA_ALERT_IMAGE);
@@ -208,7 +214,7 @@ public class AlertActivity extends Activity
         stopArea.setVisibility(View.VISIBLE);
         snoozeArea.setVisibility(View.GONE);
 
-        // todo: set volume
+        setAudioVolume();
         playAudio(getNextAlertAudio());
 
         if(vibrationEnabled) {
@@ -232,6 +238,7 @@ public class AlertActivity extends Activity
 
         handler.removeMessages(AUDIO_MSGID);
         mediaplayer.reset();
+        restoreAudioVolume();
 
         if(vibrationEnabled) {
             vibrator.cancel();
@@ -297,6 +304,28 @@ public class AlertActivity extends Activity
         alertAudioCur = (alertAudioCur + 1) % alertAudio.size();
 
         return uri;
+    }
+
+    private void setAudioVolume()
+    {
+        if(audioVolume < 0) {
+            return;
+        }
+
+        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
+        savedVolume = am.getStreamVolume(AudioManager.STREAM_ALARM);
+        am.setStreamVolume(AudioManager.STREAM_ALARM, audioVolume, 0);
+    }
+
+    private void restoreAudioVolume()
+    {
+        if(audioVolume < 0 || savedVolume < 0) {
+            return;
+        }
+
+        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
+        am.setStreamVolume(AudioManager.STREAM_ALARM, savedVolume, 0);
+        savedVolume = -1;
     }
 
     private void playAudio(Uri uri)
