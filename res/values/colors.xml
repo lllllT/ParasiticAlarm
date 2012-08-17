@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="list_text_color">#ff000000</color>
+  <color name="list_text_normal_color">#ff000000</color>
+  <color name="list_text_disabled_color">#80000000</color>
   <color name="list_text_shadow_color">#ffffffff</color>
 
   <color name="list_background_pressed">#8033b5e5</color>
