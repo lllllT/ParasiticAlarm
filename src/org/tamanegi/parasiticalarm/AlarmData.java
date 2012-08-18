@@ -119,6 +119,12 @@ public abstract class AlarmData
         return null;
     }
 
+    public static void clearCache()
+    {
+        alarmDataCache = null;
+        alarmMapCache.clear();
+    }
+
     public static List<AlarmData> getAllAvailableAlarmData(Context context)
     {
         if(alarmDataCache != null) {

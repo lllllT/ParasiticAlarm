@@ -73,6 +73,7 @@ public class StartingActivity extends FragmentActivity
             int savedPriority = Process.getThreadPriority(Process.myTid());
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 
+            AlarmData.clearCache();
             List<AlarmData> ret =
                 AlarmData.getAllAvailableAlarmData(getContext());
 
