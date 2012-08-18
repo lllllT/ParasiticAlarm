@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -69,7 +70,15 @@ public class StartingActivity extends FragmentActivity
         @Override
         public List<AlarmData> loadInBackground()
         {
-            return AlarmData.getAllAvailableAlarmData(getContext());
+            int savedPriority = Process.getThreadPriority(Process.myTid());
+            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+
+            List<AlarmData> ret =
+                AlarmData.getAllAvailableAlarmData(getContext());
+
+            Process.setThreadPriority(savedPriority);
+
+            return ret;
         }
     }
 }
