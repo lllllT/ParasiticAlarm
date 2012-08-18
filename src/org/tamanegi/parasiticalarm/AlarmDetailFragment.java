@@ -356,6 +356,7 @@ public class AlarmDetailFragment extends Fragment
         private static final String KEY_ICON = "icon";
         private static final String KEY_LABEL = "label";
         private static final String KEY_CHECK = "check";
+        private static final String KEY_CHECK_ARRAY = "checkArray";
 
         private static final String[] ITEM_FROM = {
             KEY_ICON, KEY_LABEL, KEY_CHECK
@@ -368,6 +369,7 @@ public class AlarmDetailFragment extends Fragment
         private ListView listView;
         private List<AlarmData> alarms;
         private List<Map<String, Object>> listData;
+        private boolean[] checkArray;
 
         @Override
         public Dialog onCreateDialog(Bundle savedState)
@@ -379,8 +381,7 @@ public class AlarmDetailFragment extends Fragment
             // alarm list
             listView = (ListView)view.findViewById(R.id.alarm_list);
 
-            alarms = AlarmData.getAllAvailableAlarmData(getActivity());
-            listData = buildList();
+            buildList(savedState);
             adapter = new SimpleAdapter(
                 getActivity(), listData, R.layout.alarm_item,
                 ITEM_FROM, ITEM_TO);
@@ -398,6 +399,14 @@ public class AlarmDetailFragment extends Fragment
                 .setPositiveButton(android.R.string.ok, this)
                 .setNegativeButton(android.R.string.cancel, null)
                 .create();
+        }
+
+        @Override
+        public void onSaveInstanceState(Bundle outState)
+        {
+            super.onSaveInstanceState(outState);
+
+            outState.putBooleanArray(KEY_CHECK_ARRAY, checkArray);
         }
 
         @Override
@@ -419,7 +428,7 @@ public class AlarmDetailFragment extends Fragment
             ArrayList<String> vals = new ArrayList<String>();
 
             for(int i = 0; i < alarms.size(); i++) {
-                if((Boolean)listData.get(i).get(KEY_CHECK)) {
+                if(checkArray[i]) {
                     vals.add(alarms.get(i).flattenToString());
                 }
             }
@@ -439,6 +448,7 @@ public class AlarmDetailFragment extends Fragment
             boolean val = (view.getId() == R.id.alarm_select_all);
             for(int i = 0; i < alarms.size(); i++) {
                 listData.get(i).put(KEY_CHECK, val);
+                checkArray[i] = val;
             }
 
             adapter.notifyDataSetChanged();
@@ -449,27 +459,41 @@ public class AlarmDetailFragment extends Fragment
             AdapterView<?> parent, View view, int position, long id)
         {
             // on click list item
-            Map<String, Object> map = listData.get(position);
-            boolean val = (! (Boolean)map.get(KEY_CHECK));
-            map.put(KEY_CHECK, val);
+            boolean val = (! checkArray[position]);
+
+            listData.get(position).put(KEY_CHECK, val);
+            checkArray[position] = val;
+
             ((CheckBox)view.findViewById(R.id.item_check)).setChecked(val);
         }
 
-        private List<Map<String, Object>> buildList()
+        private void buildList(Bundle savedState)
         {
-            List<Map<String, Object>> data =
-                new ArrayList<Map<String, Object>>();
+            alarms = AlarmData.getAllAvailableAlarmData(getActivity());
+            int cnt = alarms.size();
+
+            listData = new ArrayList<Map<String, Object>>();
             List<String> curNames = Arrays.asList(settings.getAlarms(id));
 
-            for(AlarmData alarm : alarms) {
+            if(savedState != null) {
+                checkArray = savedState.getBooleanArray(KEY_CHECK_ARRAY);
+            }
+            if(checkArray == null) {
+                checkArray = new boolean[cnt];
+                for(int i = 0; i < cnt; i++) {
+                    AlarmData alarm = alarms.get(i);
+                    checkArray[i] = curNames.contains(alarm.flattenToString());
+                }
+            }
+
+            for(int i = 0; i < cnt; i++) {
+                AlarmData alarm = alarms.get(i);
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put(KEY_ICON, alarm.getIcon());
                 map.put(KEY_LABEL, alarm.getName());
-                map.put(KEY_CHECK, curNames.contains(alarm.flattenToString()));
-                data.add(map);
+                map.put(KEY_CHECK, checkArray[i]);
+                listData.add(map);
             }
-
-            return data;
         }
     }
 
