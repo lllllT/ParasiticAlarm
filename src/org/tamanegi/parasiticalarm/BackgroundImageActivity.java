@@ -20,10 +20,13 @@ public abstract class BackgroundImageActivity extends FragmentActivity
     private static final int INTERVAL = 1000 * 10;
     private static final int TRANSITION = 500;
 
+    private static final int MSG_FADEIN = 1;
+    private static final int MSG_FADEOUT = 2;
+
     private static List<Uri> backgrounds = null;
     private static int backgroundIndex = 0;
 
-    private TransitionDrawable bgDrawable = null;
+    private Drawable blankDrawable;
     private Drawable lastDrawable;
     private ImageView bgImage;
     private Handler handler = null;
@@ -33,7 +36,7 @@ public abstract class BackgroundImageActivity extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
 
-        lastDrawable = getResources().getDrawable(R.drawable.empty_background);
+        blankDrawable = getResources().getDrawable(R.drawable.empty_background);
         handler = new Handler(backgroundCallback);
 
         if(backgrounds == null) {
@@ -67,7 +70,7 @@ public abstract class BackgroundImageActivity extends FragmentActivity
         super.onResume();
 
         if(backgrounds.size() != 0) {
-            updateBackground();
+            startFadeIn();
         }
     }
 
@@ -76,18 +79,29 @@ public abstract class BackgroundImageActivity extends FragmentActivity
     {
         super.onPause();
 
-        handler.removeMessages(0);
+        handler.removeMessages(MSG_FADEIN);
+        handler.removeMessages(MSG_FADEOUT);
     }
 
     private Handler.Callback backgroundCallback = new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-                updateBackground();
-                return true;
+                System.out.println("dbg: handleMessage: " + msg.what);
+                if(msg.what == MSG_FADEIN) {
+                    startFadeIn();
+                    return true;
+                }
+                else if(msg.what == MSG_FADEOUT) {
+                    startFadeOut();
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         };
 
-    private void updateBackground()
+    private void startFadeIn()
     {
         Uri uri = backgrounds.get(backgroundIndex);
         backgroundIndex += 1;
@@ -104,19 +118,31 @@ public abstract class BackgroundImageActivity extends FragmentActivity
             return;
         }
 
-        Drawable[] drawables = new Drawable[2];
-        drawables[0] = lastDrawable;
-        drawables[1] = d;
-        bgDrawable = new TransitionDrawable(drawables);
-
-        bgDrawable.setId(0, 0);
-        bgDrawable.setId(1, 1);
-        bgImage.setImageDrawable(bgDrawable);
-
-        bgDrawable.startTransition(TRANSITION);
+        updateBackground(blankDrawable, d);
         lastDrawable = d;
 
-        handler.removeMessages(0);
-        handler.sendEmptyMessageDelayed(0, INTERVAL);
+        handler.removeMessages(MSG_FADEIN);
+        handler.removeMessages(MSG_FADEOUT);
+        handler.sendEmptyMessageDelayed(MSG_FADEOUT, INTERVAL);
+    }
+
+    private void startFadeOut()
+    {
+        updateBackground(lastDrawable, blankDrawable);
+
+        handler.removeMessages(MSG_FADEIN);
+        handler.removeMessages(MSG_FADEOUT);
+        handler.sendEmptyMessageDelayed(MSG_FADEIN, TRANSITION);
+    }
+
+    private void updateBackground(Drawable from, Drawable to)
+    {
+        Drawable[] drawables = new Drawable[2];
+        drawables[0] = from;
+        drawables[1] = to;
+
+        TransitionDrawable bgDrawable = new TransitionDrawable(drawables);
+        bgImage.setImageDrawable(bgDrawable);
+        bgDrawable.startTransition(TRANSITION);
     }
 }
