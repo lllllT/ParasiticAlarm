@@ -123,7 +123,9 @@ public abstract class BackgroundImageActivity extends FragmentActivity
 
         handler.removeMessages(MSG_FADEIN);
         handler.removeMessages(MSG_FADEOUT);
-        handler.sendEmptyMessageDelayed(MSG_FADEOUT, INTERVAL);
+        if(backgrounds.size() > 1) {
+            handler.sendEmptyMessageDelayed(MSG_FADEOUT, INTERVAL);
+        }
     }
 
     private void startFadeOut()
