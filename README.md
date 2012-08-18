@@ -4,6 +4,7 @@ ParasiticAlarm
 Introduction
 ------------
 他のアプリの音声や画像データを利用させてもらうAndroid用めざましアプリ。
+
 具体的には[このあたり](http://pipli.jp/tag/mezaani)のアプリとか。
 ただし、一部のコピー防止が有効となっているものは利用できない。
 
