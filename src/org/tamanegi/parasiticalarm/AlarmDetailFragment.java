@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -292,6 +293,8 @@ public class AlarmDetailFragment extends Fragment
         protected AlarmSettings settings;
         protected int id;
 
+        private Context themedContext;
+
         public void setId(int id)
         {
             Bundle args =
@@ -307,6 +310,14 @@ public class AlarmDetailFragment extends Fragment
 
             settings = new AlarmSettings(getActivity());
             id = getArguments().getInt(ARG_ITEM_ID);
+
+            themedContext = new ContextThemeWrapper(
+                getActivity(), R.style.DialogTheme);
+        }
+
+        protected Context getThemedContext()
+        {
+            return themedContext;
         }
     }
 
@@ -318,7 +329,7 @@ public class AlarmDetailFragment extends Fragment
         public Dialog onCreateDialog(Bundle savedState)
         {
             return new TimePickerDialog(
-                getActivity(), this,
+                getThemedContext(), this,
                 settings.getTimeHour(id),
                 settings.getTimeMinute(id),
                 DateFormat.is24HourFormat(getActivity()));
@@ -381,7 +392,7 @@ public class AlarmDetailFragment extends Fragment
             view.findViewById(R.id.alarm_select_none).setOnClickListener(this);
             view.findViewById(R.id.alarm_select_all).setOnClickListener(this);
 
-            return new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(getThemedContext())
                 .setTitle(R.string.pref_desc_alarm)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, this)
@@ -476,7 +487,7 @@ public class AlarmDetailFragment extends Fragment
         @Override
         public Dialog onCreateDialog(Bundle savedState)
         {
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            LayoutInflater inflater = LayoutInflater.from(getThemedContext());
             View view = inflater.inflate(R.layout.dialog_volume, null, false);
 
             int val = settings.getVolume(id);
@@ -504,7 +515,7 @@ public class AlarmDetailFragment extends Fragment
                 bar.setProgress(val);
             }
 
-            return new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(getThemedContext())
                 .setTitle(R.string.pref_desc_volume)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, this)
@@ -567,7 +578,7 @@ public class AlarmDetailFragment extends Fragment
                 checked[i] = days.contains(alldays[i]);
             }
 
-            return new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(getThemedContext())
                 .setTitle(R.string.pref_desc_day)
                 .setMultiChoiceItems(str, checked, this)
                 .setPositiveButton(android.R.string.ok, this)
@@ -620,7 +631,7 @@ public class AlarmDetailFragment extends Fragment
         @Override
         public Dialog onCreateDialog(Bundle savedState)
         {
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            LayoutInflater inflater = LayoutInflater.from(getThemedContext());
             View view = inflater.inflate(R.layout.number_picker, null, false);
 
             edit = (EditText)view.findViewById(R.id.numberpicker_input);
@@ -631,7 +642,7 @@ public class AlarmDetailFragment extends Fragment
             view.findViewById(R.id.numberpicker_decrement)
                 .setOnClickListener(this);
 
-            return new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(getThemedContext())
                 .setTitle(titleResId)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, this)

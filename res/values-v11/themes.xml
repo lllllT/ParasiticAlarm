@@ -2,4 +2,5 @@
 <resources>
   <style name="MainTheme"
          parent="@android:style/Theme.Holo.Light.NoActionBar" />
+  <style name="DialogTheme" parent="@android:style/Theme.Holo.Light" />
 </resources>
