@@ -260,8 +260,8 @@ public abstract class AlarmData
 
             // alert_audio, alert_image, after_image
             {
-                ArrayList<Uri> audio = new ArrayList<Uri>();
-                ArrayList<Uri> image = new ArrayList<Uri>();
+                HashSet<Uri> audio = new HashSet<Uri>();
+                HashSet<Uri> image = new HashSet<Uri>();
                 HashSet<String> names = new HashSet<String>();
 
                 for(int i = 0; i < 6; i++) {
@@ -296,7 +296,7 @@ public abstract class AlarmData
 
             // after_audio
             {
-                ArrayList<Uri> audio = new ArrayList<Uri>();
+                HashSet<Uri> audio = new HashSet<Uri>();
 
                 for(int i = 8; i < 11; i++) {
                     audio.add(
