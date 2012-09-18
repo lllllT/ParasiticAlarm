@@ -5,8 +5,15 @@ Introduction
 ------------
 他のアプリの音声や画像データを利用させてもらうAndroid用めざましアプリ。
 
-具体的には[このあたり](http://pipli.jp/tag/mezaani)のアプリとか。
-ただし、一部のコピー防止が有効となっているものは利用できない。
+具体的には[このあたり](http://pipli.jp/tag/mezaani) (ただし、一部のコピー防止が有効となっているものは利用できない) や
+[このあたり](https://play.google.com/store/apps/details?id=amw.AccelWorld_AlarmF)
+のアプリとか。
+
+
+Download
+--------
+
+ビルド済みパッケージファイルは[ダウンロードページ](https://github.com/lllllT/ParasiticAlarm/downloads)から取得可能。
 
 
 Build
