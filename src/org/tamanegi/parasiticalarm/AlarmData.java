@@ -111,6 +111,10 @@ public abstract class AlarmData
             if(packageName.equals(SankareaAlarmData.PACKAGE_NAME)) {
                 return new SankareaAlarmData(context);
             }
+            if(packageName.equals(AccelWorldAlarmData.PACKAGE_NAME)) {
+                return new AccelWorldAlarmData(
+                    context, Integer.parseInt(params[1]));
+            }
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -184,6 +188,14 @@ public abstract class AlarmData
             if(packageName.equals(SankareaAlarmData.PACKAGE_NAME)) {
                 return new AlarmData[] {
                     new SankareaAlarmData(context),
+                };
+            }
+            if(packageName.equals(AccelWorldAlarmData.PACKAGE_NAME)) {
+                return new AlarmData[] {
+                    new AccelWorldAlarmData(context, 0),
+                    new AccelWorldAlarmData(context, 1),
+                    new AccelWorldAlarmData(context, 2),
+                    new AccelWorldAlarmData(context, 3),
                 };
             }
         }
@@ -516,6 +528,76 @@ public abstract class AlarmData
         public String flattenToString()
         {
             return PACKAGE_NAME;
+        }
+    }
+
+    private static class AccelWorldAlarmData extends AlarmData
+    {
+        private static final String PACKAGE_NAME =
+            "amw.AccelWorld_AlarmF";
+
+        private static final String[] NAMES = {
+            "通常モード", "ＢＢモード", "甘々モード", "名言モード" };
+        private static final String AUDIONAME_FORMAT = "voice_%d";
+        private static final int AUDIO_COUNT = 5;
+
+        private int idx;
+
+        public AccelWorldAlarmData(Context context, int idx)
+        {
+            this.idx = idx;
+
+            PackageManager pm = context.getPackageManager();
+            CharSequence appname;
+            try {
+                appname = pm.getApplicationLabel(
+                    pm.getApplicationInfo(PACKAGE_NAME, 0));
+            }
+            catch(PackageManager.NameNotFoundException ex) {
+                throw new IllegalStateException(ex);
+            }
+
+            // name
+            name = appname + " - " + NAMES[idx];
+
+            // icon
+            icon = buildResourceUri(PACKAGE_NAME, "drawable/icon");
+
+            // alert_audio
+            alert_audio = new Uri[AUDIO_COUNT];
+            for(int i = 0; i < AUDIO_COUNT; i++) {
+                alert_audio[i] =
+                    buildResourceUri(
+                        PACKAGE_NAME,
+                        "raw/" + String.format(AUDIONAME_FORMAT,
+                                               (idx * 5) + i + 1));
+            }
+
+            // alert_image
+            alert_image = new Uri[] {
+                buildResourceUri(PACKAGE_NAME, "drawable/top_img"),
+                buildResourceUri(PACKAGE_NAME, "drawable/f000"),
+            };
+
+            // alert_message
+            alert_message = null;
+
+            // after_audio
+            after_audio = null;
+
+            // after_image
+            after_image = alert_image;
+
+            // background
+            background = new Uri[] {
+                buildResourceUri(PACKAGE_NAME, "drawable/alarm_bg"),
+            };
+        }
+
+        @Override
+        public String flattenToString()
+        {
+            return PACKAGE_NAME + "/" + idx;
         }
     }
 
