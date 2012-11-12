@@ -115,6 +115,9 @@ public abstract class AlarmData
                 return new AccelWorldAlarmData(
                     context, Integer.parseInt(params[1]));
             }
+            if(packageName.equals(SakurasouAlarmData.PACKAGE_NAME)) {
+                return new SakurasouAlarmData(context);
+            }
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -196,6 +199,11 @@ public abstract class AlarmData
                     new AccelWorldAlarmData(context, 1),
                     new AccelWorldAlarmData(context, 2),
                     new AccelWorldAlarmData(context, 3),
+                };
+            }
+            if(packageName.equals(SakurasouAlarmData.PACKAGE_NAME)) {
+                return new AlarmData[] {
+                    new SakurasouAlarmData(context),
                 };
             }
         }
@@ -598,6 +606,67 @@ public abstract class AlarmData
         public String flattenToString()
         {
             return PACKAGE_NAME + "/" + idx;
+        }
+    }
+
+    private static class SakurasouAlarmData extends AlarmData
+    {
+        private static final String PACKAGE_NAME = "amw.saku_alarm";
+
+        private static final String AUDIONAME_FORMAT = "voice_%d";
+        private static final int AUDIO_COUNT = 20;
+
+        public SakurasouAlarmData(Context context)
+        {
+            PackageManager pm = context.getPackageManager();
+            CharSequence appname;
+            try {
+                appname = pm.getApplicationLabel(
+                    pm.getApplicationInfo(PACKAGE_NAME, 0));
+            }
+            catch(PackageManager.NameNotFoundException ex) {
+                throw new IllegalStateException(ex);
+            }
+
+            // name
+            name = appname.toString();
+
+            // icon
+            icon = buildResourceUri(PACKAGE_NAME, "drawable/icon");
+
+            // alert_audio
+            alert_audio = new Uri[AUDIO_COUNT];
+            for(int i = 0; i < AUDIO_COUNT; i++) {
+                alert_audio[i] =
+                    buildResourceUri(
+                        PACKAGE_NAME,
+                        "raw/" + String.format(AUDIONAME_FORMAT, i + 1));
+            }
+
+            // alert_image
+            alert_image = new Uri[] {
+                buildResourceUri(PACKAGE_NAME, "drawable/alarm_sound_bg"),
+            };
+
+            // alert_message
+            alert_message = null;
+
+            // after_audio
+            after_audio = null;
+
+            // after_image
+            after_image = new Uri[] {
+                buildResourceUri(PACKAGE_NAME, "drawable/top_img"),
+            };
+
+            // background
+            background = after_image;
+        }
+
+        @Override
+        public String flattenToString()
+        {
+            return PACKAGE_NAME;
         }
     }
 
