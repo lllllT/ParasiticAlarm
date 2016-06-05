@@ -266,6 +266,12 @@ public class AlarmService extends IntentService
             this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
+    private PendingIntent getShowIntent()
+    {
+        Intent intent = new Intent(this, StartingActivity.class);
+        return PendingIntent.getActivity(this, 0, intent, 0);
+    }
+
     private void setAlarm(long at, PendingIntent intent)
     {
         long cur = System.currentTimeMillis();
@@ -273,9 +279,9 @@ public class AlarmService extends IntentService
             return;
         }
 
-        long erAt = (at - cur) + SystemClock.elapsedRealtime();
+        AlarmManager.AlarmClockInfo clockInfo = new AlarmManager.AlarmClockInfo(at, getShowIntent());
         AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, erAt, intent);
+        am.setAlarmClock(clockInfo, intent);
     }
 
     private void cancelAlarm(PendingIntent intent)
